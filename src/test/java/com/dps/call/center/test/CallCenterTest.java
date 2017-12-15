@@ -17,6 +17,7 @@ import com.dps.call.center.model.Director;
 import com.dps.call.center.model.Empleado;
 import com.dps.call.center.model.Operador;
 import com.dps.call.center.model.Supervisor;
+import com.dps.call.center.services.LlamadaEntrante;
 import com.dps.call.center.services.impl.DispatcherImpl;
 import com.dps.call.center.services.impl.LlamadaEntranteImpl;
 
@@ -36,6 +37,12 @@ public class CallCenterTest {
 
 	/**
 	 * 
+	 * Se realizo la pruea con los siguientes parametros
+	 * 5 operadores 
+	 * 3 supervisores 
+	 * 1 director
+	 * se realizo 10 llamadas
+	 *
 	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
 	 * @since 12/12/2017
 	 * @throws InterruptedException
@@ -47,7 +54,8 @@ public class CallCenterTest {
 
 		List<Callable<Empleado>> listaEmpleados = new ArrayList<>();
 		for (int i = 0; i < 10; i++) {
-			listaEmpleados.add(new LlamadaEntranteImpl(i, dispatcher));
+			LlamadaEntrante llamadaEntrante = new LlamadaEntranteImpl(i, dispatcher);
+			listaEmpleados.add(llamadaEntrante);
 		}
 
 		List<Future<Empleado>> empleadosFuturos = llamadasEntrantesExecutor.invokeAll(listaEmpleados);
@@ -62,8 +70,16 @@ public class CallCenterTest {
 	}
 
 	/**
-	 * Agregue 7 operadores, 2 supervisores y 1 director y luego envíe 7 llamadas,
-	 * todos los empleados que respondan la llamada deben ser Operadores
+	 * Se realizo la pruea con los siguientes parametros
+	 * 7 operadores 
+	 * 2 supervisores 
+	 * 1 director
+	 * se realizo 7 llamadas y todos los empleados que respondan la llamada deben ser Operadores
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
+	 * @since 12/12/2017
+	 * @throws InterruptedException
+	 * @throws ExecutionException
 	 */
 	@Test
 	public void testPriorityCallAntedee() throws InterruptedException, ExecutionException {
@@ -71,7 +87,8 @@ public class CallCenterTest {
 
 		List<Callable<Empleado>> listaEmpleados = new ArrayList<>();
 		for (int i = 0; i < 7; i++) {
-			listaEmpleados.add(new LlamadaEntranteImpl(i, dispatcher));
+			LlamadaEntrante llamadaEntrante = new LlamadaEntranteImpl(i, dispatcher);
+			listaEmpleados.add(llamadaEntrante);
 		}
 
 		List<Future<Empleado>> empleadosFuturos = llamadasEntrantesExecutor.invokeAll(listaEmpleados);
@@ -81,18 +98,28 @@ public class CallCenterTest {
 		}
 	}
 
-	@Test
+	
 	/**
-	 * Agregue 7 operadores, 2 supervisores y 1 director y luego envíe 8 llamadas,
-	 * todos los empleados que respondan la llamada deben ser Operadores y el último
+	 * Se realizo la pruea con los siguientes parametros
+	 * 5 operadores
+	 * 3 supervisores
+	 * 2 director y 
+	 * se realizo 6 llamadas y todos los empleados que respondan la llamada deben ser Operadores y el último
 	 * debe estar Supervisor
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
+	 * @since 12/12/2017
+	 * @throws InterruptedException
+	 * @throws ExecutionException
 	 */
+	@Test
 	public void testPriorityCallWithSupervisor() throws InterruptedException, ExecutionException {
-		organizar(7, 2, 1, 10);
+		organizar(5, 3, 2, 10);
 
 		List<Callable<Empleado>> listaEmpleados = new ArrayList<>();
-		for (int i = 0; i < 8; i++) {
-			listaEmpleados.add(new LlamadaEntranteImpl(i, dispatcher));
+		for (int i = 0; i < 6; i++) {
+			LlamadaEntrante llamadaEntrante = new LlamadaEntranteImpl(i, dispatcher);
+			listaEmpleados.add(llamadaEntrante);
 		}
 
 		List<Future<Empleado>> empleadosFuturos = llamadasEntrantesExecutor.invokeAll(listaEmpleados);

@@ -52,7 +52,7 @@ public class DispatcherImpl implements Dispatcher {
 		Empleado empleado = null;
 		try {
 			empleado = this.empleados.take();
-			LOG.info("Llamada entrante # " + llamada + " Asignado al empleado " + empleado);
+			LOG.info("Llamada entrante " + llamada + " Asignado al empleado " + empleado);
 			hacerLlamadas(llamada, empleado);
 		} catch (InterruptedException e) {
 			LOG.error("Error al asignar la llamada ", e);
@@ -73,7 +73,7 @@ public class DispatcherImpl implements Dispatcher {
 		try {
 			Integer duracion = new Random().nextInt((MAX_CALL_DURATION - MIN_CALL_DURATION) + 1) + MIN_CALL_DURATION;
 			Thread.sleep(duracion);
-			LOG.info("Finalizar llamada # " + llamada + " con el empleado " + empleado + " terminó con la duración "
+			LOG.info("Finalizar llamada " + llamada + " con el empleado " + empleado + " duración "
 					+ duracion);
 			empleados.add(empleado);
 		} catch (InterruptedException e) {

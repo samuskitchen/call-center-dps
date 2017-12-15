@@ -18,6 +18,7 @@ import com.dps.call.center.model.Empleado;
 import com.dps.call.center.model.Operador;
 import com.dps.call.center.model.Supervisor;
 import com.dps.call.center.services.Dispatcher;
+import com.dps.call.center.services.LlamadaEntrante;
 import com.dps.call.center.services.impl.DispatcherImpl;
 import com.dps.call.center.services.impl.LlamadaEntranteImpl;
 
@@ -50,17 +51,15 @@ public class Applicacion {
 		}
 
 		Dispatcher dispatcher = new DispatcherImpl(empleados);
-
+		
 		ExecutorService threadPool = Executors.newFixedThreadPool(10);
 
 		List<Callable<Empleado>> callablesList = new ArrayList<>();
 		for (int i = 0; i < 100; i++) {
-			callablesList.add(new LlamadaEntranteImpl(i, dispatcher));
+			LlamadaEntrante llamadaEntrante = new LlamadaEntranteImpl(i, dispatcher);
+			callablesList.add(llamadaEntrante);
 		}
-
-		List<Future<Empleado>> empleadosFuturos = threadPool.invokeAll(callablesList);
 
 		threadPool.shutdown();
 	}
-
 }
